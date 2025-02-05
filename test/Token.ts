@@ -1,12 +1,11 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
 import { loadFixture } from "@nomicfoundation/hardhat-network-helpers";
-import exp from "constants";
 
 describe("Token contract", function () {
   async function deployTokenFixture() {
     const Token = await ethers.getContractFactory("CloudNFT");
-    const Marketplace = await ethers.getContractFactory("NFTMarketPlace");
+    const Marketplace = await ethers.getContractFactory("NFTMarketplace");
 
     const [owner, addr1, addr2] = await ethers.getSigners();
     const marketplace = await Marketplace.deploy(

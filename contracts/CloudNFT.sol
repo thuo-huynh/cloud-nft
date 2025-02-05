@@ -31,15 +31,16 @@ contract CloudNFT is ERC721URIStorage, ERC721Enumerable {
     }
 
     function giveAway(address to) public {
-        uint256 newTokenId = _tokenIds.current();
-
-        string memory mockTokenURI = "https://hlfklgcqp2f7otputvqp4nfpkxnsqrltzedxxmpw5nbwpofm2jbq.arweave.net/OsqlmFB-i_dN9J1g_jSvVdsoRXPJB3ux9utDZ7is0kM";
-        _safeMint(to, newTokenId);
-        _setTokenURI(newTokenId, mockTokenURI);
-        
-        setApprovalForAll(marketplaceAddress, true);
-        console.log("Minted token %s to %s", newTokenId, to);
-        
         _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+
+        _safeMint(to, newItemId);
+        _setTokenURI(
+            newItemId,
+            "https://arweave.net/OsqlmFB-i_dN9J1g_jSvVdsoRXPJB3ux9utDZ7is0kM"
+        );
+        setApprovalForAll(marketplaceAddress, true);
+
+        console.log("Minted token %s to %s", newItemId, to);
     }
 }

@@ -116,17 +116,25 @@ contract NFTMarketPlace is Ownable, ReentrancyGuard {
         return (items, ids);
     }
 
-    function getListingItems(uint256 offset, uint256 limit) public view returns (ListingItem[] memory){
+    function getListingItems(uint256 offset, uint256 limit)
+        public
+        view
+        returns (ListingItem[] memory)
+    {
         require(offset >= 0, "offset must be greater than 0");
         require(limit > 0, "limit must be greater than 0");
 
-        ListingItem[] memory items = new ListingItem[](limit);
+        uint256 resultLength = (offset + limit) > _listingIds.current()
+            ? (_listingIds.current() - offset)
+            : limit;
 
-        // At the offset, get limit items that are not sold
-        uint256 j = 0;
-        for (uint256 i = offset; i < _listingIds.current() && j < limit; i++) {
-            items[j] = listingItems[i];
-            j++;
+        if (resultLength <= 0) {
+            return new ListingItem[](0);
+        }
+        ListingItem[] memory items = new ListingItem[](resultLength);
+
+        for (uint256 i = 0; i < resultLength; i++) {
+            items[i] = listingItems[i + offset];
         }
 
         return items;
